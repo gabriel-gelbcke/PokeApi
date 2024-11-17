@@ -63,7 +63,28 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
         // Peso
         Text(text = "Peso: ${pokemon.weight.toString().dropLast(1)}kg")
 
+        // Exibe os tipos do Pokémon
+        Text(
+            text = "Tipo: ${pokemon.types.joinToString(", ") { it.type.name.capitalize() }}",
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        // Exibe as habilidades
+        Text(
+            text = "Habilidades: ${pokemon.abilities.joinToString(", ") { it.ability.name.capitalize() }}",
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        // Exibe as estatísticas do Pokémon (HP, Attack, Defense, etc.)
+        Text(
+            text = "Estatísticas:",
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+        pokemon.stats.forEach {
+            Text(
+                text = "${it.stat.name.capitalize()}: ${it.base_stat}",
+                style = MaterialTheme.typography.bodyMedium // Usando bodySmall para as estatísticas
+            )
+        }
     }
 }
-
-

@@ -34,24 +34,23 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
             .padding(16.dp)
             .border(
                 BorderStroke(2.dp, Color.Black),
-                shape = RoundedCornerShape(8.dp) // Bordas arredondadas
+                shape = RoundedCornerShape(8.dp)
             ),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Black), // Fundo branco para destacar
-        elevation = CardDefaults.cardElevation(8.dp) // Usa CardDefaults para definir a elevação
+        colors = CardDefaults.cardColors(containerColor = Color.Black),
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center // Centraliza verticalmente
         ) {
             // Nome
             Text(
                 text = pokemon.name.replaceFirstChar { it.uppercase() },
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary // Usa a cor primária do tema
+                color = MaterialTheme.colorScheme.primary
             )
 
             // Imagem

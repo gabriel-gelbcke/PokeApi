@@ -35,9 +35,9 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
             .border(
                 BorderStroke(2.dp, Color.Black),
                 shape = RoundedCornerShape(8.dp) // Bordas arredondadas
-            )
-            .background(Color.White), // Fundo branco para destacar
+            ),
         shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Black), // Fundo branco para destacar
         elevation = CardDefaults.cardElevation(8.dp) // Usa CardDefaults para definir a elevação
     ) {
         Column(
@@ -45,7 +45,7 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
                 .fillMaxSize()
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center // Centraliza verticalmente
+//            verticalArrangement = Arrangement.Center // Centraliza verticalmente
         ) {
             // Nome
             Text(
@@ -73,7 +73,7 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
                         .size(200.dp)
                         .padding(8.dp)
                         .clip(RoundedCornerShape(8.dp)) // Borda arredondada na imagem
-//                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp)) // Borda na imagem
+//                      .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp)) // Borda na imagem
                 )
             } else {
                 Text(text = "Imagem não disponível", style = MaterialTheme.typography.bodyMedium)
@@ -84,32 +84,36 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
             // Altura
             Text(
                 text = "Altura: ${pokemon.height}0cm",
+                modifier = Modifier.padding(vertical = 2.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground // Usa a cor de fundo do tema
+                color = Color.White // Usa a cor de texto preto para contraste
             )
 
             // Peso
             Text(
                 text = "Peso: ${pokemon.weight.toString().dropLast(1)}kg",
+                modifier = Modifier.padding(vertical = 2.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = Color.White
             )
 
             // Exibe os tipos do Pokémon
             Text(
                 text = "Tipo: ${pokemon.types.joinToString(", ") { it.type.name.capitalize() }}",
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 2.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = Color.White
             )
 
             // Exibe as habilidades
             Text(
                 text = "Habilidades: ${pokemon.abilities.joinToString(", ") { it.ability.name.capitalize() }}",
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 2.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = Color.White
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Exibe as estatísticas do Pokémon (HP, Attack, Defense, etc.)
             Text(
@@ -122,9 +126,10 @@ fun PokemonDetails(pokemon: PokemonApiResponse) {
                 Text(
                     text = "${it.stat.name.capitalize()}: ${it.base_stat}",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.White
                 )
             }
         }
     }
 }
+

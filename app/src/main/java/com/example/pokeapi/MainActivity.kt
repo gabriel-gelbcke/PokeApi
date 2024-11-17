@@ -44,7 +44,7 @@ fun Search(viewModel: PokemonViewModel) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Campo de texto para pesquisa
@@ -54,6 +54,8 @@ fun Search(viewModel: PokemonViewModel) {
             label = { Text("Nome do Pokémon") },
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(26.dp))
 
         // Botão para pesquisar Pokémon
         Button(
@@ -65,10 +67,13 @@ fun Search(viewModel: PokemonViewModel) {
                     errorMessage.value = "Digite um nome válido!"
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth(0.8f) // O botão ocupará 50% da largura disponível
+                .padding(horizontal = 16.dp) // Adiciona preenchimento horizontal para centralizar
         ) {
             Text("Pesquisar Pokémon")
         }
+
 
         // Exibe mensagem de erro, se houver
         if (errorMessage.value.isNotEmpty()) {

@@ -73,12 +73,12 @@ fun MainScreen(navController: NavController) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "CRUD",
+                    contentDescription = "HOME",
                     tint = Color.White // Cor do ícone
                 )
                 Spacer(modifier = Modifier.weight(0.5f))
                 Text(
-                    "CRUD",
+                    "HOME",
                     color = Color.White,
                     modifier = Modifier.align(Alignment.CenterVertically) // Garante que o texto se alinha ao centro verticalmente
                 )
@@ -222,14 +222,6 @@ fun Search(viewModel: PokemonViewModel) {
                 }
             }
         }
-
-//        if (errorMessage.value.isNotEmpty()) {
-//            Text(
-//                text = errorMessage.value,
-//                color = MaterialTheme.colorScheme.error,
-//                style = MaterialTheme.typography.bodyMedium
-//            )
-//        }
 
         pokemonState?.let { pokemon ->
             PokemonDetails(pokemon = pokemon)

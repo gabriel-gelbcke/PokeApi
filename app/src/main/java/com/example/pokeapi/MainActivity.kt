@@ -53,38 +53,38 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(navController: NavController) {
-        // Este Row ficará fixado no topo da tela
-        Row(
+    // Este Row ficará fixado no topo da tela
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Botão de navegação para a tela de CRUDs
+        IconButton(
+            onClick = { navController.navigate("mainCrud") }, // Redireciona para a tela de CRUDs
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .size(width = 80.dp, height = 50.dp) // Define o tamanho do botão
+                .padding(end = 8.dp) // Espaço entre o ícone e o texto
         ) {
-            // Botão de navegação para a tela de CRUDs
-            IconButton(
-                onClick = { navController.navigate("mainCrud") }, // Redireciona para a tela de CRUDs
-                modifier = Modifier
-                    .size(width = 80.dp, height = 50.dp) // Define o tamanho do botão
-                    .padding(end = 8.dp) // Espaço entre o ícone e o texto
+            Row(
+                verticalAlignment = Alignment.CenterVertically, // Alinha verticalmente o ícone e o texto
+                horizontalArrangement = Arrangement.Start, // Alinha no início da linha
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically, // Alinha verticalmente o ícone e o texto
-                    horizontalArrangement = Arrangement.Start, // Alinha no início da linha
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "CRUD",
-                        tint = Color.White // Cor do ícone
-                    )
-                    Spacer(modifier = Modifier.weight(0.5f))
-                    Text(
-                        "CRUD",
-                        color = Color.White,
-                        modifier = Modifier.align(Alignment.CenterVertically) // Garante que o texto se alinha ao centro verticalmente
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "CRUD",
+                    tint = Color.White // Cor do ícone
+                )
+                Spacer(modifier = Modifier.weight(0.5f))
+                Text(
+                    "CRUD",
+                    color = Color.White,
+                    modifier = Modifier.align(Alignment.CenterVertically) // Garante que o texto se alinha ao centro verticalmente
+                )
             }
         }
+    }
 
 }
 

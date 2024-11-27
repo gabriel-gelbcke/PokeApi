@@ -26,7 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Search
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -61,7 +63,7 @@ fun MainScreen(navController: NavController) {
             IconButton(
                 onClick = { navController.navigate("mainCrud") }, // Redireciona para a tela de CRUDs
                 modifier = Modifier
-                    .size(width = 90.dp, height = 50.dp) // Define o tamanho do botão
+                    .size(width = 80.dp, height = 50.dp) // Define o tamanho do botão
                     .padding(end = 8.dp) // Espaço entre o ícone e o texto
             ) {
                 Row(
@@ -70,13 +72,13 @@ fun MainScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.ArrowForward, // Usando a seta para frente para indicar navegação
-                        contentDescription = "Ir para CRUD",
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "CRUD",
                         tint = Color.White // Cor do ícone
                     )
                     Spacer(modifier = Modifier.weight(0.5f))
                     Text(
-                        "Ir para CRUD",
+                        "CRUD",
                         color = Color.White,
                         modifier = Modifier.align(Alignment.CenterVertically) // Garante que o texto se alinha ao centro verticalmente
                     )
@@ -110,6 +112,7 @@ fun MyApp(content: @Composable () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(viewModel: PokemonViewModel) {
     val busca = remember { mutableStateOf("") }
@@ -121,79 +124,117 @@ fun Search(viewModel: PokemonViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState) // Adiciona rolagem
+//            .verticalScroll(scrollState) // Adiciona rolagem
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Seu conteúdo aqui
-        TextField(
+        Spacer(modifier = Modifier.height(30.dp))
+
+        OutlinedTextField(
             value = busca.value,
             onValueChange = { busca.value = it.trim() },
-            label = { Text("Nome do Pokémon") },
-            modifier = Modifier.fillMaxWidth()
+            label = {
+                Text(
+                    text = "Nome do Pokémon",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White // Cor do texto do label
+                )
+            },
+            placeholder = {
+                Text(
+                    text = "Digite o nome...",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.6f) // Placeholder com opacidade
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Search, // Ícone de busca
+                    contentDescription = "Ícone de busca",
+                    tint = Color.Cyan // Cor do ícone
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                cursorColor = Color.Cyan, // Cor do cursor azul claro
+                focusedBorderColor = Color.Cyan, // Cor da borda quando focado
+                unfocusedBorderColor = Color.Cyan.copy(alpha = 0.5f), // Cor da borda quando desfocado
+            ),
+            shape = RoundedCornerShape(12.dp), // Bordas arredondadas
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White), // Define a cor do texto digitado
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Button(
-            onClick = {
-                errorMessage.value = ""
-                if (busca.value.isNotBlank()) {
-                    viewModel.getPokemonByName(busca.value.lowercase())
-                } else {
-                    errorMessage.value = "Digite um nome válido!"
-                }
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
-            shape = RoundedCornerShape(8.dp),
-            elevation = ButtonDefaults.elevatedButtonElevation(),
+        Row(
             modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(60.dp)
-                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp) // Espaço uniforme entre os botões
         ) {
-            Text(
-                text = "Pesquisar Pokémon",
-                color = Color.White,
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Button(
+                onClick = {
+                    errorMessage.value = ""
+                    if (busca.value.isNotBlank()) {
+                        viewModel.getPokemonByName(busca.value.lowercase())
+                    } else {
+                        errorMessage.value = "Digite um nome válido!"
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Cyan, // Fundo do botão
+                    contentColor = Color.White // Cor do texto do botão
+                ),
+                shape = RoundedCornerShape(12.dp), // Bordas arredondadas como o TextField
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp), // Elevação sutil
+                modifier = Modifier
+                    .weight(1f) // Divide o espaço disponível igualmente entre os botões
+                    .height(64.dp) // Altura alinhada ao TextField
+            ) {
+                Text(
+                    text = "Pesquisar",
+                    style = MaterialTheme.typography.bodyMedium // Tipografia consistente
+                )
+            }
+
+            pokemonState?.let { pokemon ->
+                Button(
+                    onClick = {
+                        val pokemonName = pokemon.name.capitalize()
+                        sharePokemonName(context, pokemonName)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Cyan, // Fundo do botão
+                        contentColor = Color.White // Cor do texto do botão
+                    ),
+                    shape = RoundedCornerShape(12.dp), // Bordas arredondadas como o TextField
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp), // Elevação sutil
+                    modifier = Modifier
+                        .weight(1f) // Divide o espaço disponível igualmente entre os botões
+                        .height(64.dp) // Altura alinhada ao TextField
+                ) {
+                    Text(
+                        text = "Compartilhar",
+                        style = MaterialTheme.typography.bodyMedium // Tipografia consistente
+                    )
+                }
+            }
         }
 
-        if (errorMessage.value.isNotEmpty()) {
-            Text(
-                text = errorMessage.value,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
-
+//        if (errorMessage.value.isNotEmpty()) {
+//            Text(
+//                text = errorMessage.value,
+//                color = MaterialTheme.colorScheme.error,
+//                style = MaterialTheme.typography.bodyMedium
+//            )
+//        }
 
         pokemonState?.let { pokemon ->
             PokemonDetails(pokemon = pokemon)
         }
 
-        pokemonState?.let { pokemon ->
-            Button(
-                onClick = {
-                    val pokemonName = pokemon.name.capitalize()
-                    sharePokemonName(context, pokemonName)
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(60.dp)
-            ) {
-                Text(
-                    text = "Compartilhar Pokémon",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(0.dp))
 
         if (pokemonState == null && errorMessage.value.isEmpty()) {
             Text(

@@ -9,14 +9,18 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainCrud(navController: NavController) {
     // Estados para armazenar os valores inseridos
@@ -57,7 +62,7 @@ fun MainCrud(navController: NavController) {
                 IconButton(
                     onClick = { navController.popBackStack() }, // Vai voltar para a tela anterior
                     modifier = Modifier
-                        .size(width = 90.dp, height = 50.dp) // Define o tamanho do botão
+                        .size(width = 85.dp, height = 50.dp) // Define o tamanho do botão
                         .padding(end = 8.dp) // Espaço entre o ícone e o texto
                 ) {
                     Row(
@@ -67,12 +72,12 @@ fun MainCrud(navController: NavController) {
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Voltar",
+                            contentDescription = "HOME",
                             tint = Color.White // Cor do ícone
                         )
                         Spacer(modifier = Modifier.weight(0.5f))
                         Text(
-                            "Voltar",
+                            "HOME",
                             color = Color.White,
                             modifier = Modifier.align(Alignment.CenterVertically) // Garante que o texto se alinha ao centro verticalmente
                         )
@@ -81,32 +86,64 @@ fun MainCrud(navController: NavController) {
                 }
             }
 
-            // Campo de texto para inserir nome do Pokémon
-            Text("Nome do Pokémon", color = Color.White)
-            TextField(
+            OutlinedTextField(
                 value = pokemonName,
-                onValueChange = { pokemonName = it },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                placeholder = {
-                    Text("Pokemons que você já pegou", color = Color.Gray)
+                onValueChange = { pokemonName = it.trim() }, // Remove espaços extras
+                label = {
+                    Text(
+                        text = "Pokémons já capturados",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White // Cor do texto do label
+                    )
                 },
+                placeholder = {
+                    Text(
+                        text = "Nome do pokemon",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.White.copy(alpha = 0.6f) // Placeholder com opacidade
+                    )
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    cursorColor = Color.Cyan, // Cor do cursor azul claro
+                    focusedBorderColor = Color.Cyan, // Cor da borda quando focado
+                    unfocusedBorderColor = Color.Cyan.copy(alpha = 0.5f), // Cor da borda quando desfocado
+                ),
+                shape = RoundedCornerShape(12.dp), // Bordas arredondadas
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White), // Define a cor do texto digitado
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .height(64.dp)
+                    .padding(horizontal = 16.dp)
             )
 
-            // Campo de texto para inserir nome do Treinador
-            Text("Nome do Treinador", color = Color.White)
-            TextField(
+            OutlinedTextField(
                 value = trainerName,
-                onValueChange = { trainerName = it },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                placeholder = {
-                    Text("Treinadores que você já derrotou", color = Color.Gray)
+                onValueChange = { trainerName = it.trim() }, // Remove espaços extras
+                label = {
+                    Text(
+                        text = "Treinadores já derrotados",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White // Cor do texto do label
+                    )
                 },
+                placeholder = {
+                    Text(
+                        text = "Nome do treinador",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.White.copy(alpha = 0.6f) // Placeholder com opacidade
+                    )
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    cursorColor = Color.Cyan, // Cor do cursor azul claro
+                    focusedBorderColor = Color.Cyan, // Cor da borda quando focado
+                    unfocusedBorderColor = Color.Cyan.copy(alpha = 0.5f), // Cor da borda quando desfocado
+                ),
+                shape = RoundedCornerShape(12.dp), // Bordas arredondadas
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White), // Define a cor do texto digitado
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .height(64.dp)
+                    .padding(horizontal = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(0.dp))
